@@ -1,0 +1,22 @@
+﻿{
+	"consul": {
+    "service": {
+      "ServiceName": "followme.srv.demo.x",
+      "ConsulAddress": "http://192.168.8.6:8500",
+      "ServiceAddress": "192.168.*.*:0",
+      "ConsulIntegration": "true",
+      "ConsulTags": "v-1.0.0.1",
+      "TCPInterval": 10
+    },
+    "remotes": {
+      "demo": {
+        "name": "demo.x",
+        "ServiceName": "followme.srv.demo.x",
+        "FreshInterval": 10000,
+        "ConsulAddress": "http://192.168.8.6:8500",
+        "ConsulIntegration": "true",
+        "ServiceAddress": ""
+      }
+    }
+	}
+}

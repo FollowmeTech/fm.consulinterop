@@ -1,0 +1,1 @@
+protoc.exe --csharp_out . Hello.proto --grpc_out . --plugin=protoc-gen-grpc="c:\winpath\grpc_csharp_plugin.exe"

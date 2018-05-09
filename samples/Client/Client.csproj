@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SharedProject\Hello.cs" Link="gen_grpc_code\Hello.cs" />
+    <Compile Include="..\SharedProject\HelloGrpc.cs" Link="gen_grpc_code\HelloGrpc.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\SharedProject\appsetting.json" Link="appsetting.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.5.1" />
+    <PackageReference Include="Grpc.Core" Version="1.10.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\FM.ConsulInterop\FM.ConsulInterop.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="gen_grpc_code\" />
+  </ItemGroup>
+</Project>

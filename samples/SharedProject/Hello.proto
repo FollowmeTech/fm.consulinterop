@@ -1,0 +1,13 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "FM.Demo";
+
+package demo;
+
+message HiRequest{}
+message HiResponse{}
+
+service HelloSrv{
+	rpc Hi(HiRequest) returns(HiResponse){}
+}
+

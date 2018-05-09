@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <PackageId>FM.ConsulInterop</PackageId>
+    <PackageTags>gRPC consul</PackageTags>
+    <PackageAuthors>shanyuanlin</PackageAuthors>
+    <Version>3.7.5</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Authors>shanyuanlin</Authors>
+    <Company>followme.com</Company>
+    <Product>dotnet/FM.ConsulInterop</Product>
+    <Description>FM.ConsulInterop</Description>
+    <RepositoryUrl>https://gitlab.followme.com/dotnet/FM.ConsulInterop</RepositoryUrl>
+    <PackageProjectUrl>https://gitlab.followme.com/dotnet/FM.ConsulInterop</PackageProjectUrl>
+    <Copyright>https://gitlab.followme.com/dotnet/FM.ConsulInterop</Copyright>
+    <AssemblyName>FM.ConsulInterop</AssemblyName>
+    <RootNamespace>FM.ConsulInterop</RootNamespace>
+    
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Consul" Version="0.7.2.3" />
+    <PackageReference Include="Grpc" Version="1.6.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+</Project>
