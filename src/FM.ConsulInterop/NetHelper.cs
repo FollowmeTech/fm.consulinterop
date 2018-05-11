@@ -45,7 +45,8 @@ namespace FM.ConsulInterop
                 }
             }
 
-            throw new Exception($"找不到ipsegement:{ipSegment}匹配的ip, OR No network adapters with an IPv4 address in the system!");
+            var allIps = string.Join("|", hostAddrs.ConvertAll(p => p.ToString()));
+            throw new Exception($"所有的IP:({allIps})中, 找不到ipsegement:{ipSegment}匹配的ip");
         }
     }
 }
