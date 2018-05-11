@@ -7,6 +7,12 @@ namespace FM.ConsulInterop.Tests
 {
     public class NetWorkTest
     {
+         private readonly ITestOutputHelper output;
+         public NetWorkTest(ITestOutputHelper output)
+         {
+             this.output=output;
+         }
+
         [Fact]
         public void GetIp_By_FullIP()
         {
@@ -21,10 +27,13 @@ namespace FM.ConsulInterop.Tests
         {
             var ip = "110.111.*.*";
 
-            Assert.Throws<Exception>(() =>
+            var excpetion= Assert.Throws<Exception>(() =>
             {
                 var result = NetHelper.GetIp(ip);
             });
+
+           Assert.Contains("所有的IP", excpetion.ToString());
+           output.WriteLine(excpetion.ToString());
         }
 
 
