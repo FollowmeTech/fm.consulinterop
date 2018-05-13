@@ -80,4 +80,4 @@ SOA解耦了web, srv的部署问题之后
 - 支持srv动态扩展
 - 支持rpc 负载均衡
 
-[more](./readme.md)
+详情查看readme
