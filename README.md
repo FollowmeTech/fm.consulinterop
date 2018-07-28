@@ -23,9 +23,9 @@
 
 #### 如何启动:
 
-[simples代码](./sample/)
+[simples代码](./samples/)
 
-1. 下载consul, 启动consul (当然也可以不用consul,客户端服务端同时指定非consul模式,客户端配置中直接指定service address的地址)
+1. 下载consul, 启动consul命令 (consul agent -dev)
 2. 修改samples/下面的[appsettings](./samples/SharedProject/appsetting.json)配置文件设置相关的consul地址,和srv-监听地址
 3. 启动srv ,启动client
 
@@ -38,18 +38,18 @@
   "consul": {
     "service": {  ##给srv用的节点
       "ServiceName": "followme.srv.demo.x",  ##注册到consul中的srv-name
-      "ConsulAddress": "http://192.168.8.6:8500", ##consul服务地址
-      "ServiceAddress": "192.168.*.*:0",  ## grpc服务需要监听的IP/port(这里使用*,可以自动的选择IP,在同网段中可以随意启动实例自动扩展)
+      "ConsulAddress": "http://localhost:8500", ##consul服务地址
+      "ServiceAddress": "192.168.*.*:0",  ## 服务启动的IP/Port ,可以填写网段信息,端口为0表示auto-choose
       "ConsulIntegration": "true", ##是否需要把服务信息注册到consul中
-      "ConsulTags": "v-1.0.0.1", ##tag 
-      "TCPInterval": 10  ##这里使用的是consul中的TTL check模式,TTL时间(s)
+      "ConsulTags": "v-1.0.0.1", ##tag ,和go-micro通讯必须要注册tag值
+      "TCPInterval": 10  ##consul health check ,这里使用的是TTL模式
     },
     "remotes": {
       "demo": {  #####这里是给客户端使用的节点
         "name": "demo.x",  ####准备遗弃的配置!
         "ServiceName": "followme.srv.demo.x", ####客户端需要消费的服务名(通过这个名字来找到相应的服务提供的地址)
         "FreshInterval": 10000,  #### 客户端需要定时的刷新服务列表,时间毫秒
-        "ConsulAddress": "http://192.168.8.6:8500", ### consul的地址
+        "ConsulAddress": "http://localhost:8500", ### consul的地址
         "ConsulIntegration": "true", ### 客户端是否需要从consul获取服务地址
         "ServiceAddress": "" ### 当ConsulIntegration=false的时候, 这里的地址可以配置服务的具体ip:port方式
       }
