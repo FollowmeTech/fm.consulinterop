@@ -10,7 +10,7 @@ namespace FM.ConsulInterop
     {
         public void PostAction<TResponse>(TResponse response)
         {
-            InnerLogger.Log(LoggerLevel.Info, response.ToString());
+            InnerLogger.Log(LoggerLevel.Info, response?.ToString());
         }
 
         public CallOptions PreAction<TRequest, TResponse>(Method<TRequest, TResponse> method, string host, CallOptions options,
