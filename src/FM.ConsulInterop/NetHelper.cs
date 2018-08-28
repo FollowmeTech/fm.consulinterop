@@ -30,7 +30,7 @@ namespace FM.ConsulInterop
             ipSegment = ipSegment.Replace("*", IPSegmentRegex).Replace(".", "\\.");
 
             var hostAddrs = NetworkInterface.GetAllNetworkInterfaces()
-            .Where(i => i.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                .Where(i => i.NetworkInterfaceType == NetworkInterfaceType.Ethernet || i.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
                 .SelectMany(i => i.GetIPProperties().UnicastAddresses)
                 .Select(a => a.Address)
                 .Where(a => !(a.IsIPv6LinkLocal || a.IsIPv6Multicast || a.IsIPv6SiteLocal || a.IsIPv6Teredo))
