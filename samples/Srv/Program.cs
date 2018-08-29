@@ -31,7 +31,7 @@ namespace Srv
 
             Console.WriteLine("---startup----");
             //end 
-            Console.ReadLine();
+            ShutdownProcessor.Process();
         }
     }
 }

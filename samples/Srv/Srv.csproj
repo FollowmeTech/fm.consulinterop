@@ -29,4 +29,10 @@
     <ProjectReference Include="..\..\src\FM.ConsulInterop\FM.ConsulInterop.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Dockerfile">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
