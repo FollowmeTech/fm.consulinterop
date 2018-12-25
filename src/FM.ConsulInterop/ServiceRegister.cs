@@ -86,7 +86,6 @@ namespace FM.ConsulInterop
             InnerLogger.Log(LoggerLevel.Info, "register: use file config");
 
             await RegisterService();
-            //await RegisterTTLCheck();
 
             /*
              * timer本身的精度就不够
@@ -132,7 +131,6 @@ namespace FM.ConsulInterop
                     {
                         InnerLogger.Log(LoggerLevel.Error, "consul PASSTTL failed:需要重新注册");
                         await RegisterService();
-                        //await RegisterTTLCheck();
                     }
                 }
                 finally
@@ -166,6 +164,8 @@ namespace FM.ConsulInterop
 
         private Task RegisterService()
         {
+            //Service注册和TTL注册不能分开注册
+            //分开注册就可能为出现Service注册成功,TTL注册不成功，服务启动失败，Service就成了假服务    
             var agentServiceRegistration = new AgentServiceRegistration
             {
                 Address = ServiceConfig.IP,
