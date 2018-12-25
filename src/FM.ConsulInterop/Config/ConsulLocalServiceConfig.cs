@@ -49,6 +49,16 @@ namespace FM.ConsulInterop.Config
         }
 
         /// <summary>
+        /// 获取ConsulCheckId
+        /// consul客户端组件注册服务同时注册Check的CheckId默认是service:serviceId,传CheckId无效(client.Agent.ServiceRegister)
+        /// </summary>
+        /// <returns></returns>
+        public string GetConsulCheckId()
+        {
+            return $"service:{this.GetConsulServiceId()}";
+        }
+
+        /// <summary>
         /// Sets the host ip.
         /// </summary>
         /// <param name="serviceAddress">The ip.</param>

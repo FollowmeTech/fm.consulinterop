@@ -106,7 +106,7 @@ namespace FM.ConsulInterop
                     var stopWatch = Stopwatch.StartNew();
 
                     var client = CreateConsulClient(ServiceConfig.ConsulAddress);
-                    await client.Agent.PassTTL(ServiceConfig.GetConsulServiceId() + ":ttlcheck",
+                    await client.Agent.PassTTL(ServiceConfig.GetConsulCheckId(),
                         "timer:" + DateTime.Now);
 
                     client.Dispose();
@@ -127,7 +127,7 @@ namespace FM.ConsulInterop
                      */
                     if (content
                         .Contains(
-                            $"CheckID \"{ServiceConfig.GetConsulServiceId() + ":ttlcheck"}\" does not have associated TTL")
+                            $"CheckID \"{ServiceConfig.GetConsulCheckId()}\" does not have associated TTL")
                     )
                     {
                         InnerLogger.Log(LoggerLevel.Error, "consul PASSTTL failed:需要重新注册");
@@ -179,7 +179,7 @@ namespace FM.ConsulInterop
                     DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(1),
                     TTL = TimeSpan.FromSeconds(ServiceConfig.TCPInterval),
                     Status = HealthStatus.Passing,
-                    ID = ServiceConfig.GetConsulServiceId() + ":ttlcheck",
+                    ID = ServiceConfig.GetConsulCheckId(),
                     ServiceID = ServiceConfig.GetConsulServiceId(),
                     Name = "ttlcheck"
                 }
