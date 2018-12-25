@@ -86,7 +86,6 @@ namespace FM.ConsulInterop
             InnerLogger.Log(LoggerLevel.Info, "register: use file config");
 
             await RegisterService();
-            await RegisterTTLCheck();
 
             /*
              * timer本身的精度就不够
@@ -106,7 +105,7 @@ namespace FM.ConsulInterop
                     var stopWatch = Stopwatch.StartNew();
 
                     var client = CreateConsulClient(ServiceConfig.ConsulAddress);
-                    await client.Agent.PassTTL(ServiceConfig.GetConsulServiceId() + ":ttlcheck",
+                    await client.Agent.PassTTL(ServiceConfig.GetConsulCheckId(),
                         "timer:" + DateTime.Now);
 
                     client.Dispose();
@@ -127,12 +126,11 @@ namespace FM.ConsulInterop
                      */
                     if (content
                         .Contains(
-                            $"CheckID \"{ServiceConfig.GetConsulServiceId() + ":ttlcheck"}\" does not have associated TTL")
+                            $"CheckID \"{ServiceConfig.GetConsulCheckId()}\" does not have associated TTL")
                     )
                     {
                         InnerLogger.Log(LoggerLevel.Error, "consul PASSTTL failed:需要重新注册");
                         await RegisterService();
-                        await RegisterTTLCheck();
                     }
                 }
                 finally
@@ -166,6 +164,8 @@ namespace FM.ConsulInterop
 
         private Task RegisterService()
         {
+            //Service注册和TTL注册不能分开注册
+            //分开注册就可能为出现Service注册成功,TTL注册不成功，服务启动失败，Service就成了假服务    
             var agentServiceRegistration = new AgentServiceRegistration
             {
                 Address = ServiceConfig.IP,
@@ -173,7 +173,16 @@ namespace FM.ConsulInterop
                 Name = ServiceConfig.ServiceName,
                 ID = ServiceConfig.GetConsulServiceId(),
                 Tags = ServiceConfig.ConsulTags.Split(' '),
-                EnableTagOverride = true
+                EnableTagOverride = true,
+                Check = new AgentCheckRegistration
+                {
+                    DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(1),
+                    TTL = TimeSpan.FromSeconds(ServiceConfig.TCPInterval),
+                    Status = HealthStatus.Passing,
+                    ID = ServiceConfig.GetConsulCheckId(),
+                    ServiceID = ServiceConfig.GetConsulServiceId(),
+                    Name = "ttlcheck"
+                }
             };
 
             return Register(agentServiceRegistration, ServiceConfig);
