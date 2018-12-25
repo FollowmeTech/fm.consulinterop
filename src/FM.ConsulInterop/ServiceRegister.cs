@@ -86,7 +86,7 @@ namespace FM.ConsulInterop
             InnerLogger.Log(LoggerLevel.Info, "register: use file config");
 
             await RegisterService();
-            await RegisterTTLCheck();
+            //await RegisterTTLCheck();
 
             /*
              * timer本身的精度就不够
@@ -132,7 +132,7 @@ namespace FM.ConsulInterop
                     {
                         InnerLogger.Log(LoggerLevel.Error, "consul PASSTTL failed:需要重新注册");
                         await RegisterService();
-                        await RegisterTTLCheck();
+                        //await RegisterTTLCheck();
                     }
                 }
                 finally
@@ -173,7 +173,16 @@ namespace FM.ConsulInterop
                 Name = ServiceConfig.ServiceName,
                 ID = ServiceConfig.GetConsulServiceId(),
                 Tags = ServiceConfig.ConsulTags.Split(' '),
-                EnableTagOverride = true
+                EnableTagOverride = true,
+                Check = new AgentCheckRegistration
+                {
+                    DeregisterCriticalServiceAfter = TimeSpan.FromMinutes(1),
+                    TTL = TimeSpan.FromSeconds(ServiceConfig.TCPInterval),
+                    Status = HealthStatus.Passing,
+                    ID = ServiceConfig.GetConsulServiceId() + ":ttlcheck",
+                    ServiceID = ServiceConfig.GetConsulServiceId(),
+                    Name = "ttlcheck"
+                }
             };
 
             return Register(agentServiceRegistration, ServiceConfig);
